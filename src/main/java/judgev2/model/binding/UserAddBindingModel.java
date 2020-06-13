@@ -47,7 +47,7 @@ public class UserAddBindingModel {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Pattern(regexp = "https:\\/\\/github\\.com\\/.+\\/.+", message = "Enter git address following this pattern")
+    @Pattern(regexp = "https:\\/\\/github\\.com\\/.+\\/.+", message = "Enter git address following the pattern")
     public String getGit() {
         return git;
     }
