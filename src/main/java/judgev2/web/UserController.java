@@ -87,5 +87,12 @@ public class UserController {
 
     }
 
+    @GetMapping("/logout")
+    public ModelAndView logout(HttpSession httpSession, ModelAndView modelAndView) {
+        httpSession.invalidate();
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
 
 }
