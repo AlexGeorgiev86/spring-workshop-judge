@@ -1,6 +1,5 @@
 package judgev2.model.service;
 
-import judgev2.model.entity.Role;
 
 public class UserServiceModel extends BaseServiceModel {
 

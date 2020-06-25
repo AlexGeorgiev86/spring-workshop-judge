@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -23,7 +25,7 @@ public class RoleController {
     }
 
     @GetMapping("/roles/add")
-    public ModelAndView add(@Valid @ModelAttribute("roleAddBindingModel")RoleAddBindingModel roleAddBindingModel,
+    public ModelAndView add(@Valid @ModelAttribute("roleAddBindingModel")RoleAddBindingModel roleAddBindingModel, BindingResult bindingResult,
                             ModelAndView modelAndView ) {
 
         modelAndView.addObject("usernames", this.userService.findAllUsernames());
@@ -32,15 +34,18 @@ public class RoleController {
     }
 
     @PostMapping("roles/add")
-    public String addConfirm(@Valid @ModelAttribute("roleAddBindingModel") RoleAddBindingModel roleAddBindingModel,
-                             BindingResult bindingResult) {
+    public ModelAndView addConfirm(@Valid @ModelAttribute("roleAddBindingModel") RoleAddBindingModel roleAddBindingModel,
+                                   BindingResult bindingResult, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("redirect:/admin/roles/add");
+            redirectAttributes.addFlashAttribute("roleAddBindingModel", roleAddBindingModel);
 
-            return "redirect:/admin/roles/add";
+            return modelAndView;
 
         }
     this.userService.changeRole(roleAddBindingModel.getUsername(), roleAddBindingModel.getRole());
-        return "redirect:/";
+        modelAndView.setView(new RedirectView("/"));
+        return modelAndView;
     }
 
 }
