@@ -3,6 +3,7 @@ package judgev2.service.impl;
 import judgev2.model.entity.Role;
 import judgev2.model.entity.User;
 import judgev2.model.service.UserServiceModel;
+import judgev2.model.view.UserProfileViewModel;
 import judgev2.repository.UserRepository;
 import judgev2.service.RoleService;
 import judgev2.service.UserService;
@@ -61,5 +62,11 @@ public class UserServiceImpl implements UserService {
             user.setRole(roleEntity);
             this.userRepository.saveAndFlush(user);
         }
+    }
+
+    @Override
+    public UserProfileViewModel getById(String id) {
+        User user = userRepository.findById(id).orElse(null);
+        return user == null ? null : modelMapper.map(user, UserProfileViewModel.class);
     }
 }

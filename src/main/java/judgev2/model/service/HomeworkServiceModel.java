@@ -8,7 +8,7 @@ public class HomeworkServiceModel extends BaseServiceModel{
 
     private LocalDateTime addedOn;
     private String gitAddress;
-    private User author;
+    private UserServiceModel author;
     private String exercise;
 
     public HomeworkServiceModel() {
@@ -30,11 +30,11 @@ public class HomeworkServiceModel extends BaseServiceModel{
         this.gitAddress = gitAddress;
     }
 
-    public User getAuthor() {
+    public UserServiceModel getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(UserServiceModel author) {
         this.author = author;
     }
 

@@ -40,13 +40,16 @@
                                     <th:block th:each="e : ${exercises}">
                                         <option th:text="${e}" th:value="${e}">Exercise One</option>
                                     </th:block>
+                                    <th:block th:each="e : ${#fields.errors('exercise')}">
+                                        <small class="text-danger" th:text="${e}">Invalid github address</small>
+                                    </th:block>
                                 </select>
                             </div>
                             <div class="input-group mb-3">
                                 <label for="gitAddress" class="col-xl-4 col-lg-4 col-md-4 col-sm-5 col-form-label">
                                     Github address
                                 </label>
-                                <input id="gitAddress" th:field="${homework.gitAddress}" name="gitAddress" type="text"
+                                <input id="gitAddress" th:field="*{gitAddress}" name="gitAddress" type="text"
                                        class="form-control validate col-xl-9 col-lg-8 col-md-8 col-sm-7">
                             </div>
                             <th:block th:each="e : ${#fields.errors('gitAddress')}">

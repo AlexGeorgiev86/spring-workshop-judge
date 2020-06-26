@@ -13,6 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 @Service
 public class HomeworkServiceImpl implements HomeworkService {
@@ -38,5 +41,34 @@ public class HomeworkServiceImpl implements HomeworkService {
         homework.setAddedOn(LocalDateTime.now());
         homework.setAuthor(this.modelMapper.map(userServiceModel, User.class));
         this.homeworkRepository.saveAndFlush(homework);
+    }
+
+    @Override
+    public HomeworkServiceModel findOneWithLowestComments() {
+        return this.homeworkRepository.findAll().stream()
+                .min(Comparator.comparingInt(a -> a.getComments().size()))
+                .map(homework -> this.modelMapper.map(homework, HomeworkServiceModel.class)).orElse(null);
+
+    }
+
+    @Override
+    public HomeworkServiceModel findById(String id) {
+
+        return this.homeworkRepository.findById(id)
+                .map(homework -> this.modelMapper
+                        .map(homework, HomeworkServiceModel.class)).orElse(null);
+
+
+    }
+
+    @Override
+    public String getHomeworks(String id) {
+
+        Collection<Homework> collection = homeworkRepository.findAllByAuthor_Id(id);
+        return collection
+                .stream()
+                .map(h->h.getExercise().getName())
+                .collect(Collectors.joining(System.lineSeparator()));
+
     }
 }
